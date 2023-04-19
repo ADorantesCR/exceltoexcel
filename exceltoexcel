@@ -1,0 +1,15 @@
+import pandas as pd
+import os
+
+# Ruta de la carpeta donde se encuentran los archivos Excel
+carpeta = 'ruta/de/la/carpeta'
+
+# Obtener la lista de archivos Excel en la carpeta
+archivos = [archivo for archivo in os.listdir(carpeta) if archivo.endswith('.xlsx')]
+
+# Leer los archivos Excel y combinarlos en un DataFrame
+datos = pd.concat([pd.read_excel(os.path.join(carpeta, archivo), skiprows=2) for archivo in archivos])
+
+# Escribir los datos combinados en un archivo Excel
+with pd.ExcelWriter('datos_combinados.xlsx') as writer:
+    datos.to_excel(writer, index=False)
